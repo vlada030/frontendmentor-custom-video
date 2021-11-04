@@ -1,3 +1,5 @@
+// https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/cross_browser_video_player
+
 const videoContainer = document.querySelector("#videoContainer");
 const video = document.querySelector("#video");
 const videoControls = document.querySelector("#videoControls");
@@ -39,11 +41,11 @@ mute.addEventListener("click", () => {
     video.muted = !video.muted;
 });
 
-volinc.addEventListener("click", function (e) {
+volinc.addEventListener("click", () => {
     alterVolume("+");
 });
 
-voldec.addEventListener("click", function (e) {
+voldec.addEventListener("click", () => {
     alterVolume("-");
 });
 
@@ -59,9 +61,10 @@ const alterVolume = (dir) => {
 
 // progress elmnt ima max atribut (trajanje klipa), value atribut - trenutna vrednost
 // FF zuri i ne ucita duration dok CHROME stigne da ucita
-video.addEventListener("loadedmetadata", function () {
+video.addEventListener("loadedmetadata", () => {
     progress.setAttribute("max", video.duration);
 });
+
 // sa svakim frejmom video okida se ovaj event
 video.addEventListener("timeupdate", () => {
     // ukoliko nema max atributa, ovde mora da bude ucitan
@@ -78,13 +81,15 @@ video.addEventListener("timeupdate", () => {
 progress.addEventListener("click", function (e) {
     var rect = this.getBoundingClientRect();
     console.log(rect);
-    var pos = (e.pageX - rect.left) / this.offsetWidth;
+    var pos = (e.pageX - rect.left) / rect.width;
     video.currentTime = pos * video.duration;
     //progressBar.style.width = Math.floor((video.currentTime / video.duration) * 100) + "%";
 });
 
 // FULLSCREEN MODE
-const fullScreenEnabled = !!(
+
+// provera da li browser podrzava fullscreen API i da li je enable
+const isFullScreenEnabled = !!(
     document.fullscreenEnabled ||
     document.mozFullScreenEnabled ||
     document.msFullscreenEnabled ||
@@ -93,7 +98,59 @@ const fullScreenEnabled = !!(
     document.createElement("video").webkitRequestFullScreen
 );
 
-if (!fullScreenEnabled) {
-    fullscreen.style.display = 'none';
+if (!isFullScreenEnabled) {
+    fullscreen.style.display = "none";
+}
+
+fullscreen.addEventListener("click", () => {
+    handleFullscreen();
+});
+
+const handleFullscreen = () => {
+    if (isFullScreenActive()) {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+        else if (document.webkitCancelFullScreen)
+            document.webkitCancelFullScreen();
+        else if (document.msExitFullscreen) document.msExitFullscreen();
+        setFullscreenData(false);
+    } else {
+        if (videoContainer.requestFullscreen)
+            videoContainer.requestFullscreen();
+        else if (videoContainer.mozRequestFullScreen)
+            videoContainer.mozRequestFullScreen();
+        else if (videoContainer.webkitRequestFullScreen)
+            videoContainer.webkitRequestFullScreen();
+        else if (videoContainer.msRequestFullscreen)
+            videoContainer.msRequestFullscreen();
+        setFullscreenData(true);
+    }
+};
+
+const isFullScreenActive = () => {
+    return !!(
+        document.fullscreen ||
+        document.webkitIsfullScreen ||
+        document.mozFullScreen ||
+        document.msFullscreenElement ||
+        document.fullscreenElement
+    );
+};
+// pomocna fja koja video kontejneru dodaje data atribut fullscreen / boolean da bi detektovali mod i lakse se stilizovali elementi u odgovarajucem modu
+var setFullscreenData = function(state) {
+    videoContainer.setAttribute('data-fullscreen', !!state);
  }
- 
+
+ document.addEventListener('fullscreenchange', function(e) {
+    setFullscreenData(!!(document.fullscreen || document.fullscreenElement));
+ });
+ document.addEventListener('webkitfullscreenchange', function() {
+    setFullscreenData(!!document.webkitIsFullScreen);
+ });
+ document.addEventListener('mozfullscreenchange', function() {
+    setFullscreenData(!!document.mozFullScreen);
+ });
+ document.addEventListener('msfullscreenchange', function() {
+    setFullscreenData(!!document.msFullscreenElement);
+ });
+
