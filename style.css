@@ -1,0 +1,10 @@
+video {
+    width: 540px;
+    height: auto;
+    background-color:cyan;
+}
+
+ul {
+    list-style-type: none;
+    display: none;
+}
