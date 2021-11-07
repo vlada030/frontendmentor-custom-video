@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap");
 *,
 *::before,
 *::after {
@@ -5,6 +6,16 @@
   margin: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+}
+
+button {
+  border: 0;
+  font-family: inherit;
+}
+
+body {
+  font-family: 'Caveat', cursive;
+  font-weight: 400;
 }
 
 .disabled {
@@ -20,6 +31,7 @@
   width: 100%;
   height: auto;
   margin: 0 auto;
+  margin-bottom: 50px;
   position: relative;
 }
 
@@ -205,5 +217,47 @@
 
 .video-container.fullscreen-mode .bottom {
   padding-bottom: 30px;
+}
+
+.movies {
+  width: 500px;
+  margin: 0 auto;
+}
+
+.movies__group {
+  margin-bottom: 30px;
+}
+
+.movies__group h2 {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 50px;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.movies__list {
+  list-style-type: none;
+  background-color: orange;
+  border-radius: 8px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+  -webkit-column-gap: 10px;
+          column-gap: 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  justify-items: center;
+  padding: 20px 10px;
+}
+
+.movies__item .btn {
+  font-size: 24px;
+  display: block;
+  padding: 5px 20px;
+  border-radius: 4px;
 }
 /*# sourceMappingURL=main.css.map */

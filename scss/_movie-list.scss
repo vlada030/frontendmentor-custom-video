@@ -1,0 +1,45 @@
+.movies {
+    width: 500px;
+    margin: 0 auto;
+
+    &__group {
+
+        margin-bottom: 30px;
+        h2 {
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 50px;
+            letter-spacing: 1px;
+
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    }
+
+    &__list {
+        list-style-type: none;
+
+        background-color: orange;
+        border-radius: 8px;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 10px;
+
+        align-items: center;
+        justify-items: center;
+        //justify-content: center;
+
+        padding: 20px 10px;
+    }
+
+    &__item {
+        .btn {
+            font-size: 24px;
+
+            display: block;
+            padding: 5px 20px;
+            border-radius: 4px;
+        }
+    }
+}

@@ -28,6 +28,8 @@ const svgUnmute = document.getElementById("svgUnmute");
 const svgExitFS = document.getElementById("svgExitFS");
 const svgEnterFS = document.getElementById("svgEnterFS");
 
+const movies = document.querySelector('.movies')
+
 // proveri da li browser podrzava video tag i u zavisnosti od toga omoguci ili disable custom controls
 const isVideoSupported = !!document.createElement("video").canPlayType;
 
@@ -40,6 +42,11 @@ if (isVideoSupported) {
 // events related to HTML 5 video tag - play, pause, loadedmetadata, timeupdate
 
 playpause.addEventListener("click", () => {
+    // proveri najpre da li postoji source tag
+    if (!video.duration) {
+        alert('Niste odabrali video!')
+        return
+    }
     timeContainer.style.opacity = "1";
 
     if (video.paused || video.ended) {
@@ -69,7 +76,6 @@ mute.addEventListener("click", () => {
 
 volinc.addEventListener("click", () => {
     if (video.muted) return;
-    console.log(video.volume);
     alterVolume("+");
 
     if (video.volume > 0.1 && !video.muted) {
@@ -80,7 +86,6 @@ volinc.addEventListener("click", () => {
 
 voldec.addEventListener("click", () => {
     if (video.muted) return;
-    console.log(video.volume);
     alterVolume("-");
 
     if (video.volume < 0.1) {
@@ -203,34 +208,6 @@ fullscreen.addEventListener("click", () => {
     svgEnterFS.classList.toggle("disabled", toBoolean);
     svgExitFS.classList.toggle("disabled", !toBoolean);
 
-    // samo za mobile klikom na fs promeni orijentaciju ekrana
-    // if (mobileCheck()) {
-    //     console.log("mobile device");
-    //     screen.orientation.lock("landscape").then(function() {
-    //         alert('Locked');
-    //     })
-    //     .catch(function(error) {
-    //         alert(error);
-    //     });;
-    // }
-
-    //     var orientation =
-    //         (screen.orientation || {}).type ||
-    //         screen.mozOrientation ||
-    //         screen.msOrientation;
-
-    //     if (orientation === "landscape-primary") {
-    //         console.log("That looks good.");
-    //     } else if (orientation === "landscape-secondary") {
-    //         console.log("Mmmh... the screen is upside down!");
-    //     } else if (
-    //         orientation === "portrait-secondary" ||
-    //         orientation === "portrait-primary"
-    //     ) {
-    //         console.log("Mmmh... you should rotate your device to landscape");
-    //     } else if (orientation === undefined) {
-    //         console.log("The orientation API isn't supported in this browser :(");
-    //     }
 });
 
 const handleFullscreen = () => {
@@ -339,3 +316,21 @@ videoContainer.addEventListener("touchstart", (e) => {
 //         debounce(() => remove());
 //     });
 // }
+
+movies.addEventListener('click', e => {
+    if (e.target?.dataset?.link) {
+        video.innerHTML = ""
+
+        const link = e.target.dataset.link;
+
+        const downloadLink = `<a href="${link}">Download MP4</a>`
+        const source = document.createElement('source')
+        source.setAttribute('src', link)
+        source.setAttribute('type', 'video/mp4')
+
+        video.append(source)
+        video.append(downloadLink)
+        video.load()
+        video.play()
+    }
+})
