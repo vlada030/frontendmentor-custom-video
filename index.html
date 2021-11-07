@@ -5,12 +5,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Best Movie Voting</title>
-        <link rel="stylesheet" href="style.css" />
-        <script src="./main.js" defer></script>
+        <link rel="stylesheet" href="./scss/main.css" />
+        <script type="module" src="./js/main.js" defer></script>
     </head>
     <body>
         <div class="container">
-            <figure id="videoContainer">
+            <figure id="videoContainer" class="video-container">
                 <video
                     id="video"
                     preload="metadata"
@@ -18,7 +18,7 @@
                     poster="assets/img/poster.jpg"
                 >
                     <!-- <source src="assets/video/AV1-MP4.mp4" type="video/mp4"> -->
-                    <!-- <source src="assets/video/test.mp4" type="video/mp4" /> -->
+                    <source src="assets/video/test.mp4" type="video/mp4" />
                     <source src="assets/video/test-1.mp4" type="video/mp4" />
                     <source
                         src="assets/video/VP9 - WEBM.webm"
@@ -31,99 +31,114 @@
                     <a href="https://test-videos.co.uk/">Download MP4</a>
                 </video>
 
-                <div id="videoControls" class="controls">
+                <div
+                    id="videoControls"
+                    class="controls"
+                    data-fullscreen="false"
+                >
                     <div class="center">
-                        <button id="rewind">
-                            <svg
-                                version="1.1"
-                                id="svgRewind"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink"
-                                width="289.882px"
-                                height="289.883px"
-                                viewBox="0 0 289.882 289.883"
-                                style="
-                                    enable-background: new 0 0 289.882 289.883;
-                                "
-                                xml:space="preserve"
-                            >
-                                <g>
-                                    <path
-                                        d="M2.522,152.243l137.834,108.027c2.152,1.843,5.176,2.275,7.746,1.092c2.57-1.17,4.23-3.74,4.23-6.58v-92.937
-                          l125.581,98.425c2.138,1.843,5.164,2.275,7.746,1.092c2.57-1.17,4.222-3.74,4.222-6.58V35.096c0-2.849-1.67-5.437-4.275-6.605
-                          c-2.606-1.162-5.645-0.694-7.782,1.191L152.328,131.35V35.096c0-2.849-1.679-5.437-4.285-6.605
-                          c-2.594-1.162-5.644-0.694-7.773,1.191L2.436,141.342c-1.561,1.384-2.459,3.456-2.435,5.468
-                          C0.019,148.899,0.938,150.875,2.522,152.243z"
-                                    />
-                                </g>
-                            </svg>
-                        </button>
+                        <div class="actions">
+                            <button id="rewind">
+                                <svg
+                                    version="1.1"
+                                    id="svgRewind"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    width="289.882px"
+                                    height="289.883px"
+                                    viewBox="0 0 289.882 289.883"
+                                    style="
+                                        enable-background: new 0 0 289.882
+                                            289.883;
+                                    "
+                                    xml:space="preserve"
+                                >
+                                    <g>
+                                        <path
+                                            d="M2.522,152.243l137.834,108.027c2.152,1.843,5.176,2.275,7.746,1.092c2.57-1.17,4.23-3.74,4.23-6.58v-92.937
+                              l125.581,98.425c2.138,1.843,5.164,2.275,7.746,1.092c2.57-1.17,4.222-3.74,4.222-6.58V35.096c0-2.849-1.67-5.437-4.275-6.605
+                              c-2.606-1.162-5.645-0.694-7.782,1.191L152.328,131.35V35.096c0-2.849-1.679-5.437-4.285-6.605
+                              c-2.594-1.162-5.644-0.694-7.773,1.191L2.436,141.342c-1.561,1.384-2.459,3.456-2.435,5.468
+                              C0.019,148.899,0.938,150.875,2.522,152.243z"
+                                        />
+                                    </g>
+                                </svg>
+                            </button>
 
-                        <button id="playpause" type="button">
-                            <svg
-                                version="1.1"
-                                id="svgPlay"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink"
-                                x="0px"
-                                y="0px"
-                                width="408.221px"
-                                height="408.221px"
-                                viewBox="0 0 408.221 408.221"
-                                xml:space="preserve"
-                            >
-                                <g>
-                                    <path
-                                        d="M204.11,0C91.388,0,0,91.388,0,204.111c0,112.725,91.388,204.11,204.11,204.11c112.729,0,204.11-91.385,204.11-204.11
-                         C408.221,91.388,316.839,0,204.11,0z M286.547,229.971l-126.368,72.471c-17.003,9.75-30.781,1.763-30.781-17.834V140.012
-                         c0-19.602,13.777-27.575,30.781-17.827l126.368,72.466C303.551,204.403,303.551,220.217,286.547,229.971z"
-                                    />
-                                </g>
-                            </svg>
-                            <svg
-                                version="1.1"
-                                id="svgPause"
-                                class="disabled"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink"
-                                x="0px"
-                                y="0px"
-                                width="45.812px"
-                                height="45.812px"
-                                viewBox="0 0 45.812 45.812"
-                                style="enable-background: new 0 0 45.812 45.812"
-                                xml:space="preserve"
-                            >
-                                <g>
-                                    <path
-                                        d="M39.104,6.708c-8.946-8.943-23.449-8.946-32.395,0c-8.946,8.944-8.946,23.447,0,32.394
-              c8.944,8.946,23.449,8.946,32.395,0C48.047,30.156,48.047,15.653,39.104,6.708z M20.051,31.704c0,1.459-1.183,2.64-2.641,2.64
-              s-2.64-1.181-2.64-2.64V14.108c0-1.457,1.182-2.64,2.64-2.64s2.641,1.183,2.641,2.64V31.704z M31.041,31.704
-              c0,1.459-1.183,2.64-2.64,2.64s-2.64-1.181-2.64-2.64V14.108c0-1.457,1.183-2.64,2.64-2.64s2.64,1.183,2.64,2.64V31.704z"
-                                    />
-                                </g>
-                            </svg>
-                        </button>
+                            <button id="playpause" type="button">
+                                <svg
+                                    version="1.1"
+                                    id="svgPlay"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    x="0px"
+                                    y="0px"
+                                    width="408.221px"
+                                    height="408.221px"
+                                    viewBox="0 0 408.221 408.221"
+                                    xml:space="preserve"
+                                >
+                                    <g>
+                                        <path
+                                            d="M204.11,0C91.388,0,0,91.388,0,204.111c0,112.725,91.388,204.11,204.11,204.11c112.729,0,204.11-91.385,204.11-204.11
+                             C408.221,91.388,316.839,0,204.11,0z M286.547,229.971l-126.368,72.471c-17.003,9.75-30.781,1.763-30.781-17.834V140.012
+                             c0-19.602,13.777-27.575,30.781-17.827l126.368,72.466C303.551,204.403,303.551,220.217,286.547,229.971z"
+                                        />
+                                    </g>
+                                </svg>
+                                <svg
+                                    version="1.1"
+                                    id="svgPause"
+                                    class="disabled"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    x="0px"
+                                    y="0px"
+                                    width="45.812px"
+                                    height="45.812px"
+                                    viewBox="0 0 45.812 45.812"
+                                    style="
+                                        enable-background: new 0 0 45.812 45.812;
+                                    "
+                                    xml:space="preserve"
+                                >
+                                    <g>
+                                        <path
+                                            d="M39.104,6.708c-8.946-8.943-23.449-8.946-32.395,0c-8.946,8.944-8.946,23.447,0,32.394
+                  c8.944,8.946,23.449,8.946,32.395,0C48.047,30.156,48.047,15.653,39.104,6.708z M20.051,31.704c0,1.459-1.183,2.64-2.641,2.64
+                  s-2.64-1.181-2.64-2.64V14.108c0-1.457,1.182-2.64,2.64-2.64s2.641,1.183,2.641,2.64V31.704z M31.041,31.704
+                  c0,1.459-1.183,2.64-2.64,2.64s-2.64-1.181-2.64-2.64V14.108c0-1.457,1.183-2.64,2.64-2.64s2.64,1.183,2.64,2.64V31.704z"
+                                        />
+                                    </g>
+                                </svg>
+                            </button>
 
-                        <button id="forward">
-                            <svg
-                                version="1.1"
-                                id="svgForward"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink"
-                                viewBox="0 0 57 57"
-                                style="enable-background: new 0 0 57 57"
-                                xml:space="preserve"
-                            >
-                                <path
-                                    d="M56.575,27.683l-27-19c-0.306-0.216-0.703-0.242-1.036-0.07C28.208,8.784,28,9.127,28,9.5v17.777L1.575,8.694
-                       C1.27,8.481,0.872,8.453,0.539,8.625C0.208,8.797,0,9.14,0,9.513v37.975c0,0.373,0.208,0.716,0.539,0.888
-                       C0.685,48.45,0.843,48.487,1,48.487c0.202,0,0.403-0.062,0.575-0.182L28,29.723V47.5c0,0.373,0.208,0.716,0.539,0.888
-                       C28.685,48.463,28.843,48.5,29,48.5c0.202,0,0.404-0.062,0.575-0.183l27-19C56.842,29.131,57,28.825,57,28.5
-                       S56.842,27.869,56.575,27.683z"
-                                />
-                            </svg>
-                        </button>
+                            <button id="forward">
+                                <svg
+                                    version="1.1"
+                                    id="svgForward"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    viewBox="0 0 57 57"
+                                    style="enable-background: new 0 0 57 57"
+                                    xml:space="preserve"
+                                >
+                                    <path
+                                        d="M56.575,27.683l-27-19c-0.306-0.216-0.703-0.242-1.036-0.07C28.208,8.784,28,9.127,28,9.5v17.777L1.575,8.694
+                           C1.27,8.481,0.872,8.453,0.539,8.625C0.208,8.797,0,9.14,0,9.513v37.975c0,0.373,0.208,0.716,0.539,0.888
+                           C0.685,48.45,0.843,48.487,1,48.487c0.202,0,0.403-0.062,0.575-0.182L28,29.723V47.5c0,0.373,0.208,0.716,0.539,0.888
+                           C28.685,48.463,28.843,48.5,29,48.5c0.202,0,0.404-0.062,0.575-0.183l27-19C56.842,29.131,57,28.825,57,28.5
+                           S56.842,27.869,56.575,27.683z"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="time" id='timeContainer'>
+                            <time id="timeElapsed">00:00</time>
+                            <span> / </span>
+                            <time id="duration">00:00</time>
+                        </div>
                     </div>
 
                     <div class="bottom">
@@ -154,98 +169,97 @@
                         </div>
 
                         <div class="volume-wrapper">
-                           <button id="mute" type="button">
-                              <svg
-                                  id="svgMute"
-                                  class="disabled"
-                                  viewBox="0 0 16 16"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="currentColor"
-                              >
-                                  <path
-                                      fill-rule="evenodd"
-                                      clip-rule="evenodd"
-                                      d="M1.5 5h2.79l3.86-3.83.85.35v13l-.85.33L4.29 11H1.5l-.5-.5v-5l.5-.5zm3.35 5.17L8 13.31V2.73L4.85 5.85 4.5 6H2v4h2.5l.35.17zm9.381-4.108l.707.707L13.207 8.5l1.731 1.732-.707.707L12.5 9.207l-1.732 1.732-.707-.707L11.793 8.5 10.06 6.77l.707-.707 1.733 1.73 1.731-1.731z"
-                                  />
-                              </svg>
-  
-                              <svg
-                                  id="svgUnmute"
-                                  
-                                  viewBox="0 0 24 24"
-                                  xmlns="http://www.w3.org/2000/svg"
-                              >
-                                  <path
-                                      fill-rule="evenodd"
-                                      d="M11.553 3.064A.75.75 0 0112 3.75v16.5a.75.75 0 01-1.255.555L5.46 16H2.75A1.75 1.75 0 011 14.25v-4.5C1 8.784 1.784 8 2.75 8h2.71l5.285-4.805a.75.75 0 01.808-.13zM10.5 5.445l-4.245 3.86a.75.75 0 01-.505.195h-3a.25.25 0 00-.25.25v4.5c0 .138.112.25.25.25h3a.75.75 0 01.505.195l4.245 3.86V5.445z"
-                                  />
-                                  <path
-                                      d="M18.718 4.222a.75.75 0 011.06 0c4.296 4.296 4.296 11.26 0 15.556a.75.75 0 01-1.06-1.06 9.5 9.5 0 000-13.436.75.75 0 010-1.06z"
-                                  />
-                                  <path
-                                      d="M16.243 7.757a.75.75 0 10-1.061 1.061 4.5 4.5 0 010 6.364.75.75 0 001.06 1.06 6 6 0 000-8.485z"
-                                  />
-                              </svg>
-                          </button>
-  
-                          <button id="volinc" type="button">
-                              <svg
-                                  id="svgVolInc"
-                                  viewBox="0 0 32 32"
-                                  id="icon"
-                                  xmlns="http://www.w3.org/2000/svg"
-                              >
-                                  <defs>
-                                      <style>
-                                          .cls-1 {
-                                              fill: none;
-                                          }
-                                      </style>
-                                  </defs>
-                                  <polygon
-                                      points="32 15 28 15 28 11 26 11 26 15 22 15 22 17 26 17 26 21 28 21 28 17 32 17 32 15"
-                                  />
-                                  <path
-                                      d="M18,30a.997.997,0,0,1-.7109-.2969L9.666,22H3a.9993.9993,0,0,1-1-.9988V11a.9993.9993,0,0,1,.9988-1H9.666l7.623-7.7031A1,1,0,0,1,19,3V29A1.0007,1.0007,0,0,1,18,30ZM4,20h6a1.2008,1.2008,0,0,1,.7939.2969L17,26.5684V5.4316l-6.2061,6.2715A1.2013,1.2013,0,0,1,10,12H4Z"
-                                  />
-                                  <rect
-                                      id="_Transparent_Rectangle_"
-                                      data-name="&lt;Transparent Rectangle&gt;"
-                                      class="cls-1"
-                                      width="32"
-                                      height="32"
-                                  />
-                              </svg>
-                          </button>
-  
-                          <button id="voldec" type="button">
-                              <svg
-                                  id="svgVolDec"
-                                  viewBox="0 0 32 32"
-                                  id="icon"
-                                  xmlns="http://www.w3.org/2000/svg"
-                              >
-                                  <defs>
-                                      <style>
-                                          .cls-1 {
-                                              fill: none;
-                                          }
-                                      </style>
-                                  </defs>
-                                  <rect x="22" y="15" width="10" height="2" />
-                                  <path
-                                      d="M18,30a.997.997,0,0,1-.7109-.2969L9.666,22H3a.9993.9993,0,0,1-1-.9988V11a.9993.9993,0,0,1,.9988-1H9.666l7.623-7.7031A1,1,0,0,1,19,3V29A1.0007,1.0007,0,0,1,18,30ZM4,20h6a1.2008,1.2008,0,0,1,.7939.2969L17,26.5684V5.4316l-6.2061,6.2715A1.2013,1.2013,0,0,1,10,12H4Z"
-                                  />
-                                  <rect
-                                      id="_Transparent_Rectangle_"
-                                      data-name="&lt;Transparent Rectangle&gt;"
-                                      class="cls-1"
-                                      width="32"
-                                      height="32"
-                                  />
-                              </svg>
-                          </button>
-                        </div>                        
+                            <button id="mute" type="button">
+                                <svg
+                                    id="svgMute"
+                                    class="disabled"
+                                    viewBox="0 0 16 16"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        clip-rule="evenodd"
+                                        d="M1.5 5h2.79l3.86-3.83.85.35v13l-.85.33L4.29 11H1.5l-.5-.5v-5l.5-.5zm3.35 5.17L8 13.31V2.73L4.85 5.85 4.5 6H2v4h2.5l.35.17zm9.381-4.108l.707.707L13.207 8.5l1.731 1.732-.707.707L12.5 9.207l-1.732 1.732-.707-.707L11.793 8.5 10.06 6.77l.707-.707 1.733 1.73 1.731-1.731z"
+                                    />
+                                </svg>
+
+                                <svg
+                                    id="svgUnmute"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M11.553 3.064A.75.75 0 0112 3.75v16.5a.75.75 0 01-1.255.555L5.46 16H2.75A1.75 1.75 0 011 14.25v-4.5C1 8.784 1.784 8 2.75 8h2.71l5.285-4.805a.75.75 0 01.808-.13zM10.5 5.445l-4.245 3.86a.75.75 0 01-.505.195h-3a.25.25 0 00-.25.25v4.5c0 .138.112.25.25.25h3a.75.75 0 01.505.195l4.245 3.86V5.445z"
+                                    />
+                                    <path
+                                        d="M18.718 4.222a.75.75 0 011.06 0c4.296 4.296 4.296 11.26 0 15.556a.75.75 0 01-1.06-1.06 9.5 9.5 0 000-13.436.75.75 0 010-1.06z"
+                                    />
+                                    <path
+                                        d="M16.243 7.757a.75.75 0 10-1.061 1.061 4.5 4.5 0 010 6.364.75.75 0 001.06 1.06 6 6 0 000-8.485z"
+                                    />
+                                </svg>
+                            </button>
+
+                            <button id="volinc" type="button">
+                                <svg
+                                    id="svgVolInc"
+                                    viewBox="0 0 32 32"
+                                    id="icon"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <defs>
+                                        <style>
+                                            .cls-1 {
+                                                fill: none;
+                                            }
+                                        </style>
+                                    </defs>
+                                    <polygon
+                                        points="32 15 28 15 28 11 26 11 26 15 22 15 22 17 26 17 26 21 28 21 28 17 32 17 32 15"
+                                    />
+                                    <path
+                                        d="M18,30a.997.997,0,0,1-.7109-.2969L9.666,22H3a.9993.9993,0,0,1-1-.9988V11a.9993.9993,0,0,1,.9988-1H9.666l7.623-7.7031A1,1,0,0,1,19,3V29A1.0007,1.0007,0,0,1,18,30ZM4,20h6a1.2008,1.2008,0,0,1,.7939.2969L17,26.5684V5.4316l-6.2061,6.2715A1.2013,1.2013,0,0,1,10,12H4Z"
+                                    />
+                                    <rect
+                                        id="_Transparent_Rectangle_"
+                                        data-name="&lt;Transparent Rectangle&gt;"
+                                        class="cls-1"
+                                        width="32"
+                                        height="32"
+                                    />
+                                </svg>
+                            </button>
+
+                            <button id="voldec" type="button">
+                                <svg
+                                    id="svgVolDec"
+                                    viewBox="0 0 32 32"
+                                    id="icon"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <defs>
+                                        <style>
+                                            .cls-1 {
+                                                fill: none;
+                                            }
+                                        </style>
+                                    </defs>
+                                    <rect x="22" y="15" width="10" height="2" />
+                                    <path
+                                        d="M18,30a.997.997,0,0,1-.7109-.2969L9.666,22H3a.9993.9993,0,0,1-1-.9988V11a.9993.9993,0,0,1,.9988-1H9.666l7.623-7.7031A1,1,0,0,1,19,3V29A1.0007,1.0007,0,0,1,18,30ZM4,20h6a1.2008,1.2008,0,0,1,.7939.2969L17,26.5684V5.4316l-6.2061,6.2715A1.2013,1.2013,0,0,1,10,12H4Z"
+                                    />
+                                    <rect
+                                        id="_Transparent_Rectangle_"
+                                        data-name="&lt;Transparent Rectangle&gt;"
+                                        class="cls-1"
+                                        width="32"
+                                        height="32"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
 
                         <button id="fs" type="button">
                             <svg
@@ -260,7 +274,7 @@
                             </svg>
                             <svg
                                 id="svgExitFS"
-                                class='disabled'
+                                class="disabled"
                                 viewBox="0 0 1024 1024"
                                 xmlns="http://www.w3.org/2000/svg"
                                 class="icon"

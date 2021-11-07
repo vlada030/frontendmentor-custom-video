@@ -1,11 +1,18 @@
 // https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/cross_browser_video_player
 
+// https://freshman.tech/custom-html5-video/
+
+import { mobileAndTabletCheck, formatTime } from "./helper.js";
+
 const videoContainer = document.querySelector("#videoContainer");
 const video = document.querySelector("#video");
 const videoControls = document.querySelector("#videoControls");
 const playpause = document.getElementById("playpause");
 const rewind = document.getElementById("rewind");
 const forward = document.getElementById("forward");
+const timeContainer = document.getElementById("timeContainer");
+const timeElapsed = document.getElementById("timeElapsed");
+const duration = document.getElementById("duration");
 const stop = document.getElementById("stop");
 const mute = document.getElementById("mute");
 const volinc = document.getElementById("volinc");
@@ -33,6 +40,8 @@ if (isVideoSupported) {
 // events related to HTML 5 video tag - play, pause, loadedmetadata, timeupdate
 
 playpause.addEventListener("click", () => {
+    timeContainer.style.opacity = "1";
+
     if (video.paused || video.ended) {
         video.play();
         svgPlay.classList.toggle("disabled", true);
@@ -56,13 +65,6 @@ mute.addEventListener("click", () => {
     video.muted = !video.muted;
     svgMute.classList.toggle("disabled");
     svgUnmute.classList.toggle("disabled");
-    // if (video.muted) {
-    //     svgMute.classList.toggle('disabled', false)
-    //     svgUnmute.classList.toggle('disabled', true)
-    // } else {
-    //     svgMute.classList.toggle('disabled', true)
-    //     svgUnmute.classList.toggle('disabled', false)
-    // }
 });
 
 volinc.addEventListener("click", () => {
@@ -101,18 +103,41 @@ const alterVolume = (dir) => {
 // FF zuri i ne ucita duration dok CHROME stigne da ucita
 video.addEventListener("loadedmetadata", () => {
     progress.setAttribute("max", video.duration);
+
+    //const videoDuration = Math.round(video.duration);
+    const time = formatTime(video.duration);
+    duration.innerText = `${time.minutes}:${time.seconds}`;
+
 });
 
 // sa svakim frejmom video okida se ovaj event
 video.addEventListener("timeupdate", () => {
-    // ukoliko nema max atributa, ovde mora da bude ucitan
+    let time;
+    
+    // ukoliko nema max atributa, ovde mora da bude ucitan , slucaj FF
     if (!progress.getAttribute("max")) {
         progress.setAttribute("max", video.duration);
+        
+        time = formatTime(video.duration);
+        duration.innerText = `${time.minutes}:${time.seconds}`;
+    }
+    
+    // u slucaju kad video dodje do kraja ili se premotava do kraja
+    if (video.currentTime === video.duration) {
+        video.pause();
+        video.currentTime = 0;
+        progress.value = 0;
+        svgPlay.classList.toggle("disabled", false);
+        svgPause.classList.toggle("disabled", true);
+        return
     }
 
     progress.setAttribute("value", video.currentTime);
     progressBar.style.width =
         Math.floor((video.currentTime / video.duration) * 100) + "%";
+
+    time = formatTime(video.currentTime);
+    timeElapsed.innerText = `${time.minutes}:${time.seconds}`;
 });
 
 // klik na progress bar za seeking
@@ -129,6 +154,7 @@ rewind.addEventListener("click", () => {
 
 forward.addEventListener("click", () => {
     alterTime("+");
+    
 });
 
 const alterTime = (dir) => {
@@ -165,17 +191,46 @@ if (!isFullScreenEnabled) {
 
 fullscreen.addEventListener("click", () => {
     handleFullscreen();
-    svgEnterFS.classList.toggle("disabled", videoContainer.dataset.fullscreen);
-    svgExitFS.classList.toggle("disabled", !videoContainer.dataset.fullscreen);
-    console.log(videoContainer.dataset.fullscreen);
 
-    // if (videoContainer.dataset.fullscreen) {
-    //     svgEnterFS.classList.toggle('disabled', true)
-    //     svgExitFS.classList.toggle('disabled', false)
-    // } else {
-    //     svgEnterFS.classList.toggle('disabled', false)
-    //     svgExitFS.classList.toggle('disabled', true)
-    // };
+    const toBoolean = videoContainer.dataset.fullscreen === "true";
+
+    if (toBoolean) {
+        videoContainer.classList.add("fullscreen-mode");
+    } else {
+        videoContainer.classList.remove("fullscreen-mode");
+    }
+
+    svgEnterFS.classList.toggle("disabled", toBoolean);
+    svgExitFS.classList.toggle("disabled", !toBoolean);
+
+    // samo za mobile klikom na fs promeni orijentaciju ekrana
+    // if (mobileCheck()) {
+    //     console.log("mobile device");
+    //     screen.orientation.lock("landscape").then(function() {
+    //         alert('Locked');
+    //     })
+    //     .catch(function(error) {
+    //         alert(error);
+    //     });;
+    // }
+
+    //     var orientation =
+    //         (screen.orientation || {}).type ||
+    //         screen.mozOrientation ||
+    //         screen.msOrientation;
+
+    //     if (orientation === "landscape-primary") {
+    //         console.log("That looks good.");
+    //     } else if (orientation === "landscape-secondary") {
+    //         console.log("Mmmh... the screen is upside down!");
+    //     } else if (
+    //         orientation === "portrait-secondary" ||
+    //         orientation === "portrait-primary"
+    //     ) {
+    //         console.log("Mmmh... you should rotate your device to landscape");
+    //     } else if (orientation === undefined) {
+    //         console.log("The orientation API isn't supported in this browser :(");
+    //     }
 });
 
 const handleFullscreen = () => {
@@ -208,6 +263,7 @@ const isFullScreenActive = () => {
         document.fullscreenElement
     );
 };
+
 // pomocna fja koja video kontejneru dodaje data atribut fullscreen / boolean da bi detektovali mod i lakse se stilizovali elementi u odgovarajucem modu
 var setFullscreenData = function (state) {
     videoContainer.setAttribute("data-fullscreen", !!state);
@@ -225,3 +281,61 @@ document.addEventListener("mozfullscreenchange", function () {
 document.addEventListener("msfullscreenchange", function () {
     setFullscreenData(!!document.msFullscreenElement);
 });
+
+// prikazi i skloni controle u fullscreen modu kada mije touch uredjaj
+videoContainer.addEventListener("click", (e) => {
+    if (isFullScreenActive() && !mobileAndTabletCheck()) {
+        videoControls.style.transform = "scale(1)";
+    }
+
+    if (
+        e.target.id === "videoControls" &&
+        isFullScreenActive() &&
+        !mobileAndTabletCheck()
+    ) {
+        videoControls.style.transform = "scale(0)";
+    }
+});
+
+// prikazi i skloni kontrole na touch uredjaju
+videoContainer.addEventListener("touchstart", (e) => {
+    if (mobileAndTabletCheck()) {
+        videoControls.style.transform = "scale(1)";
+    }
+
+    if (e.target.id === "videoControls" && mobileAndTabletCheck()) {
+        videoControls.style.transform = "scale(0)";
+    }
+});
+
+// function debounce(func, timeout = 300) {
+//     let timer;
+//     return (...args) => {
+//         clearTimeout(timer);
+//         timer = setTimeout(() => {
+//             func.apply(this, args);
+//         }, timeout);
+//     };
+// }
+
+// if (mobileAndTabletCheck()) {
+//     video.addEventListener("touchstart", () => {
+//         videoControls.style.transform = "scale(1)";
+//         //debounce(() => {videoControls.style.transform = "scale(0)";})
+//         setTimeout(() => {
+//             videoControls.style.transform = "scale(0)";
+//         }, 2000);
+//     });
+// }
+
+// if (mobileAndTabletCheck()) {
+//     video.addEventListener("touchstart", () => {
+//         videoControls.style.transform = "scale(1)";
+
+//         function remove() {
+//             videoControls.style.transform = "scale(0)";
+//         }
+
+//         debounce(() => remove());
+//     });
+// }
