@@ -13,6 +13,11 @@ button {
   font-family: inherit;
 }
 
+video {
+  -webkit-box-shadow: transparent;
+          box-shadow: transparent;
+}
+
 body {
   font-family: 'Caveat', cursive;
   font-weight: 400;
@@ -22,12 +27,16 @@ body {
   display: none;
 }
 
+.drag-over {
+  border: 3px solid orangered !important;
+}
+
 .container {
   padding: 50px 0;
 }
 
 .video-container {
-  max-width: 600px;
+  max-width: 900px;
   width: 100%;
   height: auto;
   margin: 0 auto;
@@ -170,9 +179,9 @@ body {
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
   position: absolute;
-  bottom: 0;
+  bottom: 0px;
   left: 0;
-  padding: 10px 0;
+  padding: 15px 0;
 }
 
 .video-container .controls .volume-wrapper {
@@ -220,12 +229,38 @@ body {
 }
 
 .movies {
-  width: 500px;
+  max-width: 700px;
   margin: 0 auto;
+}
+
+.movies h1 {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: 1px;
+  text-align: center;
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.movies p {
+  font-size: 20px;
+  line-height: 20px;
+  letter-spacing: 1px;
+  text-align: center;
+  width: 70%;
+  margin: 0 auto;
+  margin-bottom: 50px;
 }
 
 .movies__group {
   margin-bottom: 30px;
+  cursor: move;
+  border: 3px solid transparent;
+  opacity: 1;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 
 .movies__group h2 {
@@ -243,14 +278,19 @@ body {
   border-radius: 8px;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 1fr 1fr;
-      grid-template-columns: 1fr 1fr 1fr;
+  -ms-grid-columns: (minmax(180px, max-content))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(180px, -webkit-max-content));
+      grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
   -webkit-column-gap: 10px;
           column-gap: 10px;
+  row-gap: 20px;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   justify-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   padding: 20px 10px;
 }
 
@@ -259,5 +299,10 @@ body {
   display: block;
   padding: 5px 20px;
   border-radius: 4px;
+  cursor: move;
+  border: 3px solid transparent;
+  opacity: 1;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 /*# sourceMappingURL=main.css.map */

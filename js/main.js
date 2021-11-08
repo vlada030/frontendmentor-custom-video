@@ -44,9 +44,10 @@ if (isVideoSupported) {
 playpause.addEventListener("click", () => {
     // proveri najpre da li postoji source tag
     if (!video.duration) {
-        alert('Niste odabrali video!')
+        alert('Najpre odaberite video!')
         return
     }
+
     timeContainer.style.opacity = "1";
 
     if (video.paused || video.ended) {
@@ -319,18 +320,58 @@ videoContainer.addEventListener("touchstart", (e) => {
 
 movies.addEventListener('click', e => {
     if (e.target?.dataset?.link) {
-        video.innerHTML = ""
 
         const link = e.target.dataset.link;
+        video.innerHTML = ''
 
-        const downloadLink = `<a href="${link}">Download MP4</a>`
         const source = document.createElement('source')
+        const notSupportedLink = document.createElement('a')
+
         source.setAttribute('src', link)
         source.setAttribute('type', 'video/mp4')
+        notSupportedLink.setAttribute('href', link)
+        notSupportedLink.innerText = 'Download file'
 
         video.append(source)
-        video.append(downloadLink)
+        video.append(notSupportedLink)
+
         video.load()
         video.play()
+        timeContainer.style.opacity = "1";
+
+        window.scrollTo(
+            {
+                top: 0,
+                behavior: 'smooth'
+            }
+        )
     }
+})
+
+//https://web.dev/drag-and-drop/#creating-draggable-content
+
+function handleDragStart (e) {
+    e.stopPropagation()
+    this.style.opacity = '0.4'
+}
+
+function handleDragEnd (e) {
+    this.style.opacity = '1'
+}
+
+function handleDragEnter(e) {
+    this.classList.add('drag-over');
+  }
+
+  function handleDragLeave(e) {
+    this.classList.remove('drag-over');
+  }
+
+const dragabbleElements = movies.querySelectorAll('[draggable]')
+dragabbleElements.forEach(element => {
+   
+    element.addEventListener('dragstart', handleDragStart)
+    element.addEventListener('dragend', handleDragEnd)
+    element.addEventListener('dragenter', handleDragEnter)
+    element.addEventListener('dragleave', handleDragLeave)
 })

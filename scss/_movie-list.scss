@@ -1,10 +1,40 @@
 .movies {
-    width: 500px;
+    max-width: 700px;
     margin: 0 auto;
 
-    &__group {
+    h1 {
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 40px;
+        letter-spacing: 1px;
 
+        text-align: center;
+
+        width: 80%;
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 20px;
+        line-height: 20px;
+        letter-spacing: 1px;
+
+        text-align: center;
+
+        width: 70%;
+        margin: 0 auto;
+        margin-bottom: 50px;
+    }
+
+    &__group {
         margin-bottom: 30px;
+        cursor: move;
+        border: 3px solid transparent;
+
+        opacity: 1;
+        transition: all 0.2s;
+
         h2 {
             font-size: 30px;
             font-weight: 600;
@@ -23,12 +53,14 @@
         border-radius: 8px;
 
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        //grid-template-columns: repeat(3, max-content);
+        grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
         column-gap: 10px;
+        row-gap: 20px;
 
         align-items: center;
         justify-items: center;
-        //justify-content: center;
+        justify-content: center;
 
         padding: 20px 10px;
     }
@@ -40,6 +72,13 @@
             display: block;
             padding: 5px 20px;
             border-radius: 4px;
+
+            cursor: move;
+            border: 3px solid transparent;
+
+            opacity: 1;
+            transition: all 0.2s;
+
         }
     }
 }

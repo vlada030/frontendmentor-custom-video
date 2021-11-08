@@ -14,14 +14,22 @@ button {
 
 }
 
+video {
+    box-shadow: transparent;
+}
+
 body {
     font-family: 'Caveat', cursive;
     font-weight: 400;
 }
 
-
+// GLOBAL CLASSES
 .disabled {
     display: none;
+}
+
+.drag-over {
+    border: 3px solid orangered !important;
 }
 
 .container {
