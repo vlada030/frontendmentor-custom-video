@@ -28,7 +28,7 @@ const svgUnmute = document.getElementById("svgUnmute");
 const svgExitFS = document.getElementById("svgExitFS");
 const svgEnterFS = document.getElementById("svgEnterFS");
 
-const movies = document.querySelector('.movies')
+const movies = document.querySelector(".movies");
 
 // proveri da li browser podrzava video tag i u zavisnosti od toga omoguci ili disable custom controls
 const isVideoSupported = !!document.createElement("video").canPlayType;
@@ -44,8 +44,8 @@ if (isVideoSupported) {
 playpause.addEventListener("click", () => {
     // proveri najpre da li postoji source tag
     if (!video.duration) {
-        alert('Najpre odaberite video!')
-        return
+        alert("Najpre odaberite video!");
+        return;
     }
 
     timeContainer.style.opacity = "1";
@@ -113,21 +113,20 @@ video.addEventListener("loadedmetadata", () => {
     //const videoDuration = Math.round(video.duration);
     const time = formatTime(video.duration);
     duration.innerText = `${time.minutes}:${time.seconds}`;
-
 });
 
 // sa svakim frejmom video okida se ovaj event
 video.addEventListener("timeupdate", () => {
     let time;
-    
+
     // ukoliko nema max atributa, ovde mora da bude ucitan , slucaj FF
     if (!progress.getAttribute("max")) {
         progress.setAttribute("max", video.duration);
-        
+
         time = formatTime(video.duration);
         duration.innerText = `${time.minutes}:${time.seconds}`;
     }
-    
+
     // u slucaju kad video dodje do kraja ili se premotava do kraja
     if (video.currentTime === video.duration) {
         video.pause();
@@ -135,7 +134,7 @@ video.addEventListener("timeupdate", () => {
         progress.value = 0;
         svgPlay.classList.toggle("disabled", false);
         svgPause.classList.toggle("disabled", true);
-        return
+        return;
     }
 
     progress.setAttribute("value", video.currentTime);
@@ -160,7 +159,6 @@ rewind.addEventListener("click", () => {
 
 forward.addEventListener("click", () => {
     alterTime("+");
-    
 });
 
 const alterTime = (dir) => {
@@ -208,7 +206,6 @@ fullscreen.addEventListener("click", () => {
 
     svgEnterFS.classList.toggle("disabled", toBoolean);
     svgExitFS.classList.toggle("disabled", !toBoolean);
-
 });
 
 const handleFullscreen = () => {
@@ -318,60 +315,86 @@ videoContainer.addEventListener("touchstart", (e) => {
 //     });
 // }
 
-movies.addEventListener('click', e => {
+movies.addEventListener("click", (e) => {
     if (e.target?.dataset?.link) {
-
         const link = e.target.dataset.link;
-        video.innerHTML = ''
+        video.innerHTML = "";
 
-        const source = document.createElement('source')
-        const notSupportedLink = document.createElement('a')
+        const source = document.createElement("source");
+        const notSupportedLink = document.createElement("a");
 
-        source.setAttribute('src', link)
-        source.setAttribute('type', 'video/mp4')
-        notSupportedLink.setAttribute('href', link)
-        notSupportedLink.innerText = 'Download file'
+        source.setAttribute("src", link);
+        source.setAttribute("type", "video/mp4");
+        notSupportedLink.setAttribute("href", link);
+        notSupportedLink.innerText = "Download file";
 
-        video.append(source)
-        video.append(notSupportedLink)
+        video.append(source);
+        video.append(notSupportedLink);
 
-        video.load()
-        video.play()
+        video.load();
+        video.play();
         timeContainer.style.opacity = "1";
 
-        window.scrollTo(
-            {
-                top: 0,
-                behavior: 'smooth'
-            }
-        )
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
     }
-})
+});
 
 //https://web.dev/drag-and-drop/#creating-draggable-content
 
-function handleDragStart (e) {
-    e.stopPropagation()
-    this.style.opacity = '0.4'
+let dragSrcEl = null;
+
+function handleDragStart(e) {
+    e.stopPropagation();
+    this.style.opacity = "0.4";
+
+    dragSrcEl = this;
+
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", this.innerHTML);
 }
 
-function handleDragEnd (e) {
-    this.style.opacity = '1'
+function handleDragOver(e) {
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+
+    e.dataTransfer.dropEffect = 'move';
+    
+    return false;
+  }
+
+  function handleDragEnter(e) {
+      this.classList.add("drag-over");
+  }
+
+function handleDragEnd(e) {
+    this.style.opacity = "1";
 }
 
-function handleDragEnter(e) {
-    this.classList.add('drag-over');
-  }
+function handleDragLeave(e) {
+    this.classList.remove("drag-over");
+}
 
-  function handleDragLeave(e) {
-    this.classList.remove('drag-over');
-  }
+function handleDrop(e) {
+    e.stopPropagation(); // stops the browser from redirecting.
 
-const dragabbleElements = movies.querySelectorAll('[draggable]')
-dragabbleElements.forEach(element => {
-   
-    element.addEventListener('dragstart', handleDragStart)
-    element.addEventListener('dragend', handleDragEnd)
-    element.addEventListener('dragenter', handleDragEnter)
-    element.addEventListener('dragleave', handleDragLeave)
-})
+    if (dragSrcEl !== this) {
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = e.dataTransfer.getData("text/plain");
+    }
+
+    return false;
+}
+
+const dragabbleElements = movies.querySelectorAll("[draggable]");
+dragabbleElements.forEach((element) => {
+    element.addEventListener("dragstart", handleDragStart);
+    element.addEventListener("dragenter", handleDragEnter);
+    element.addEventListener("dragover", handleDragOver);
+    element.addEventListener("dragleave", handleDragLeave);
+    element.addEventListener("drop", handleDrop);
+    element.addEventListener("dragend", handleDragEnd);
+});
