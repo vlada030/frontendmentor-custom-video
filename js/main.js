@@ -344,6 +344,17 @@ movies.addEventListener("click", (e) => {
 
 //https://web.dev/drag-and-drop/#creating-draggable-content
 
+const dragabbleElements = movies.querySelectorAll("[draggable]");
+
+dragabbleElements.forEach((element) => {
+    element.addEventListener("dragstart", handleDragStart);
+    element.addEventListener("dragenter", handleDragEnter);
+    element.addEventListener("dragover", handleDragOver);
+    element.addEventListener("dragleave", handleDragLeave);
+    element.addEventListener("drop", handleDrop);
+    element.addEventListener("dragend", handleDragEnd);
+});
+
 let dragSrcEl = null;
 
 function handleDragStart(e) {
@@ -351,27 +362,33 @@ function handleDragStart(e) {
     this.style.opacity = "0.4";
 
     dragSrcEl = this;
-
+    console.log(dragSrcEl);
     e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/plain", this.innerHTML);
+    e.dataTransfer.setData("text/html", this.innerHTML);
 }
 
 function handleDragOver(e) {
+    //To make an element a drop target you listen for its dragover event and you either return false from it, or you call preventDefault() on the event passed
+
     if (e.preventDefault) {
-      e.preventDefault();
+        e.preventDefault();
     }
 
-    e.dataTransfer.dropEffect = 'move';
-    
-    return false;
-  }
+    e.dataTransfer.dropEffect = "move";
 
-  function handleDragEnter(e) {
-      this.classList.add("drag-over");
-  }
+    return false;
+}
+
+function handleDragEnter(e) {
+    this.classList.add("drag-over");
+}
 
 function handleDragEnd(e) {
     this.style.opacity = "1";
+
+    dragabbleElements.forEach((elem) => {
+        elem.classList.toggle("drag-over", false);
+    });
 }
 
 function handleDragLeave(e) {
@@ -381,20 +398,12 @@ function handleDragLeave(e) {
 function handleDrop(e) {
     e.stopPropagation(); // stops the browser from redirecting.
 
-    if (dragSrcEl !== this) {
+    if (dragSrcEl != this && dragSrcEl.dataset.dropto === this.dataset.dropto) {
+
         dragSrcEl.innerHTML = this.innerHTML;
-        this.innerHTML = e.dataTransfer.getData("text/plain");
+        this.innerHTML = e.dataTransfer.getData("text/html");
+        //this.replaceWith(this, dragSrcEl);
     }
 
     return false;
 }
-
-const dragabbleElements = movies.querySelectorAll("[draggable]");
-dragabbleElements.forEach((element) => {
-    element.addEventListener("dragstart", handleDragStart);
-    element.addEventListener("dragenter", handleDragEnter);
-    element.addEventListener("dragover", handleDragOver);
-    element.addEventListener("dragleave", handleDragLeave);
-    element.addEventListener("drop", handleDrop);
-    element.addEventListener("dragend", handleDragEnd);
-});

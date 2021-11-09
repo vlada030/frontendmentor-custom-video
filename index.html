@@ -17,7 +17,6 @@
                     controls
                     poster="assets/img/poster.jpg"
                 >
-
                     <!-- <source src="./assets/video/beach_1.mp4" type="video/mp4"> -->
                     <!-- <source src="assets/video/AV1-MP4.mp4" type="video/mp4"> -->
                     <!-- <source src="assets/video/test.mp4" type="video/mp4" /> -->
@@ -136,7 +135,7 @@
                             </button>
                         </div>
 
-                        <div class="time" id='timeContainer'>
+                        <div class="time" id="timeContainer">
                             <time id="timeElapsed">00:00</time>
                             <span> / </span>
                             <time id="duration">00:00</time>
@@ -296,33 +295,131 @@
             </figure>
 
             <section class="movies">
-
                 <h1>Best categorie and video selection</h1>
                 <p>Reorder the list bellow based on your preference</p>
 
-                <div class="movies__group">
+                <div class="movies__group" draggable="true">
                     <h2>Beaches</h2>
                     <ul class="movies__list">
-                        <li class="movies__item" draggable="true" data-dropto="beach"><button class="btn" data-link="assets/video/beach_1.mp4" >Beach 1</button></li>
-                        <li class="movies__item" draggable="true" data-dropto="beach"><button class="btn" data-link="assets/video/beach_2.mp4">Beach 2</button></li>
-                        <li class="movies__item" draggable="true" data-dropto="beach"><button class="btn" data-link="assets/video/beach_3.mp4">Beach 3</button></li>
+                        <li
+                            class="movies__item"
+                            draggable="true"
+                            data-dropto="beach"
+                        >
+                            <button
+                                class="btn"
+                                data-link="assets/video/beach_1.mp4"
+                            >
+                                Beach 1
+                            </button>
+                        </li>
+                        <li
+                            class="movies__item"
+                            draggable="true"
+                            data-dropto="beach"
+                        >
+                            <button
+                                class="btn"
+                                data-link="assets/video/beach_2.mp4"
+                            >
+                                Beach 2
+                            </button>
+                        </li>
+                        <li
+                            class="movies__item"
+                            draggable="true"
+                            data-dropto="beach"
+                        >
+                            <button
+                                class="btn"
+                                data-link="assets/video/beach_3.mp4"
+                            >
+                                Beach 3
+                            </button>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="movies__group" draggable=false>
+                <div class="movies__group" draggable="true">
                     <h2>Forests</h2>
                     <ul class="movies__list">
-                        <li class="movies__item"><button class="btn" draggable=false data-link="assets/video/forest_1.mp4" data-dropto="btn-forest">Forest 1</button></li>
-                        <li class="movies__item"><button class="btn" draggable=false data-link="assets/video/forest_2.mp4" data-dropto="btn-forest">Forest 2</button></li>
-                        <li class="movies__item"><button class="btn" draggable=false data-link="assets/video/forest_3.mp4" data-dropto="btn-forest">Forest 3</button></li>
+                        <li
+                            class="movies__item"
+                            draggable="true"
+                            data-dropto="forest"
+                        >
+                            <button
+                                class="btn"
+                                data-link="assets/video/forest_1.mp4"
+                            >
+                                Forest 1
+                            </button>
+                        </li>
+                        <li
+                            class="movies__item"
+                            draggable="true"
+                            data-dropto="forest"
+                        >
+                            <button
+                                class="btn"
+                                data-link="assets/video/forest_2.mp4"
+                            >
+                                Forest 2
+                            </button>
+                        </li>
+                        <li
+                            class="movies__item"
+                            draggable="true"
+                            data-dropto="forest"
+                        >
+                            <button
+                                class="btn"
+                                data-link="assets/video/forest_3.mp4"
+                            >
+                                Forest 3
+                            </button>
+                        </li>
                     </ul>
                 </div>
-                <div class="movies__group" draggable=false>
+                <div class="movies__group" draggable="true">
                     <h2>Waterfalls</h2>
                     <ul class="movies__list">
-                        <li class="movies__item"><button class="btn" draggable=false data-link="assets/video/waterfall_1.mp4" data-dropto="btn-waterfall">Waterfall 1</button></li>
-                        <li class="movies__item"><button class="btn" draggable=false data-link="assets/video/waterfall_2.mp4" data-dropto="btn-waterfall">Waterfall 2</button></li>
-                        <li class="movies__item"><button class="btn" draggable=false data-link="assets/video/waterfall_3.mp4" data-dropto="btn-waterfall">Waterfall 3</button></li>
+                        <li
+                            class="movies__item"
+                            draggable="true"
+                            data-dropto="waterfall"
+                        >
+                            <button
+                                class="btn"
+                                data-link="assets/video/waterfall_1.mp4"
+                            >
+                                Waterfall 1
+                            </button>
+                        </li>
+                        <li
+                            class="movies__item"
+                            draggable="true"
+                            data-dropto="waterfall"
+                        >
+                            <button
+                                class="btn"
+                                data-link="assets/video/waterfall_2.mp4"
+                            >
+                                Waterfall 2
+                            </button>
+                        </li>
+                        <li
+                            class="movies__item"
+                            draggable="true"
+                            data-dropto="waterfall"
+                        >
+                            <button
+                                class="btn"
+                                data-link="assets/video/waterfall_3.mp4"
+                            >
+                                Waterfall 3
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </section>
