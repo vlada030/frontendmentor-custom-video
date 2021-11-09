@@ -362,7 +362,11 @@ function handleDragStart(e) {
     this.style.opacity = "0.4";
 
     dragSrcEl = this;
+
     console.log(dragSrcEl);
+    console.log(e.target.dataset.dropto);
+    console.log(e.target);
+
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/html", this.innerHTML);
 }
@@ -389,6 +393,8 @@ function handleDragEnd(e) {
     dragabbleElements.forEach((elem) => {
         elem.classList.toggle("drag-over", false);
     });
+    
+    //e.dataTransfer.clearData();
 }
 
 function handleDragLeave(e) {
@@ -396,13 +402,15 @@ function handleDragLeave(e) {
 }
 
 function handleDrop(e) {
-    e.stopPropagation(); // stops the browser from redirecting.
+    //e.stopPropagation(); // stops the browser from redirecting.
+    e.preventDefault();
 
     if (dragSrcEl != this && dragSrcEl.dataset.dropto === this.dataset.dropto) {
 
         dragSrcEl.innerHTML = this.innerHTML;
         this.innerHTML = e.dataTransfer.getData("text/html");
         //this.replaceWith(this, dragSrcEl);
+        
     }
 
     return false;

@@ -297,14 +297,17 @@ body {
 
 .movies__item {
   border: 3px solid transparent;
+  border-radius: 8px;
+  background-color: #ccc;
+  padding: 10px 40px;
+  cursor: move;
 }
 
 .movies__item .btn {
   font-size: 24px;
   display: block;
-  padding: 5px 20px;
-  border-radius: 4px;
-  cursor: move;
+  background-color: inherit;
+  cursor: pointer;
   opacity: 1;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;

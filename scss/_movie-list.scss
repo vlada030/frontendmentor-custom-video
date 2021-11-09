@@ -68,17 +68,19 @@
 
     &__item {
         border: 3px solid transparent;
+        border-radius: 8px;
+        background-color: #ccc;
+        padding: 10px 40px;
+        cursor: move;
+
 
         .btn {
             font-size: 24px;
-
+            
             display: block;
-            padding: 5px 20px;
-            border-radius: 4px;
-
-            cursor: move;
+            background-color: inherit;
             //border: 3px solid transparent;
-
+            cursor: pointer;
             opacity: 1;
             transition: all 0.2s;
 
