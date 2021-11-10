@@ -19,6 +19,7 @@ const volinc = document.getElementById("volinc");
 const voldec = document.getElementById("voldec");
 const progress = document.getElementById("progress");
 const progressBar = document.getElementById("progress-bar"); // za browsere koji ne prikazu progress tag
+const playbackRate = document.getElementById('playbackRate')
 const fullscreen = document.getElementById("fs");
 
 const svgPlay = document.getElementById("svgPlay");
@@ -50,7 +51,10 @@ playpause.addEventListener("click", () => {
 
     timeContainer.style.opacity = "1";
 
+    const rate = parseFloat(playbackRate.value) 
+
     if (video.paused || video.ended) {
+        video.playbackRate = rate
         video.play();
         svgPlay.classList.toggle("disabled", true);
         svgPause.classList.toggle("disabled", false);
@@ -60,6 +64,15 @@ playpause.addEventListener("click", () => {
         svgPause.classList.toggle("disabled", true);
     }
 });
+
+playbackRate.addEventListener('change', function() {
+    //e.preventDefault()
+    if (!video.paused || !video.ended) {
+        video.playbackRate = parseFloat(this.value) 
+        video.play()
+
+    }
+})
 
 stop.addEventListener("click", () => {
     video.pause();
@@ -198,7 +211,7 @@ fullscreen.addEventListener("click", () => {
 
     const toBoolean = videoContainer.dataset.fullscreen === "true";
 
-    if (toBoolean) {
+    if (toBoolean && !mobileAndTabletCheck()) {
         videoContainer.classList.add("fullscreen-mode");
     } else {
         videoContainer.classList.remove("fullscreen-mode");
@@ -332,6 +345,7 @@ movies.addEventListener("click", (e) => {
         video.append(notSupportedLink);
 
         video.load();
+        video.playbackRate = parseFloat(playbackRate.value)
         video.play();
         timeContainer.style.opacity = "1";
 
