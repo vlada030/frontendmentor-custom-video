@@ -71,3 +71,15 @@ export function formatTime(timeInSeconds) {
 //       seconds: result.substr(6, 2),
 //     };
 //   };
+
+export const setToLocalStorage = obj => {
+
+    const formattedObj = JSON.stringify(obj)
+    window.localStorage.setItem('order', formattedObj)
+}
+
+export const getFromLocalStorage = () => {
+    
+    const obj = window.localStorage.getItem('order')
+    return JSON.parse(obj)
+}

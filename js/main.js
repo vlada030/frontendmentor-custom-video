@@ -2,7 +2,7 @@
 
 // https://freshman.tech/custom-html5-video/
 
-import { mobileAndTabletCheck, formatTime } from "./helper.js";
+import { mobileAndTabletCheck, formatTime, setToLocalStorage, getFromLocalStorage } from "./helper.js";
 
 const videoContainer = document.querySelector("#videoContainer");
 const video = document.querySelector("#video");
@@ -358,6 +358,30 @@ movies.addEventListener("click", (e) => {
 
 //https://web.dev/drag-and-drop/#creating-draggable-content
 
+let elementsOrder = {}
+
+const initializeList = () => {
+    const alreadySavedList = getFromLocalStorage()
+    
+    if (!!alreadySavedList) {
+        elementsOrder.status = alreadySavedList.status
+        elementsOrder.order = alreadySavedList.order
+    } else {
+        elementsOrder = {
+            status: false,
+            order: ''
+        }
+    }
+    
+    // update UI
+    if (elementsOrder.status) {
+        movies.innerHTML = elementsOrder.order
+    }
+    
+}
+
+initializeList()
+
 const dragabbleElements = movies.querySelectorAll("[draggable]");
 
 dragabbleElements.forEach((element) => {
@@ -369,6 +393,7 @@ dragabbleElements.forEach((element) => {
     element.addEventListener("dragend", handleDragEnd);
 });
 
+
 let dragSrcEl = null;
 
 function handleDragStart(e) {
@@ -376,10 +401,6 @@ function handleDragStart(e) {
     this.style.opacity = "0.4";
 
     dragSrcEl = this;
-
-    console.log(dragSrcEl);
-    console.log(e.target.dataset.dropto);
-    console.log(e.target);
 
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/html", this.innerHTML);
@@ -419,11 +440,16 @@ function handleDrop(e) {
     //e.stopPropagation(); // stops the browser from redirecting.
     e.preventDefault();
 
+    
+
     if (dragSrcEl != this && dragSrcEl.dataset.dropto === this.dataset.dropto) {
 
         dragSrcEl.innerHTML = this.innerHTML;
         this.innerHTML = e.dataTransfer.getData("text/html");
         //this.replaceWith(this, dragSrcEl);
+        elementsOrder.status = true
+        elementsOrder.order = document.querySelector('.movies').innerHTML
+        setToLocalStorage(elementsOrder)
         
     }
 
