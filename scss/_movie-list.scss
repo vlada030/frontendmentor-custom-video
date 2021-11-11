@@ -1,6 +1,6 @@
 .movies {
     max-width: 700px;
-    width: 95%;
+    width: 85%;
     margin: 0 auto;
 
     h1 {
@@ -45,13 +45,14 @@
             text-align: center;
             margin-bottom: 10px;
         }
+
     }
 
     &__list {
         list-style-type: none;
-
-        background-color: orange;
         border-radius: 8px;
+        background-size: cover;
+        background-repeat: no-repeat;
 
         display: grid;
         //grid-template-columns: repeat(3, max-content);
@@ -64,6 +65,19 @@
         justify-content: center;
 
         padding: 20px 10px;
+
+    }
+
+    &__list.first {
+        background: linear-gradient(rgba(255, 165, 0, 0.8), rgba(255, 165, 0, 0.1)), url('../assets/img/beach.jpg');
+    }
+
+    &__list.second {
+        background: linear-gradient(rgba(255, 165, 0, 0.8), rgba(255, 165, 0, 0.1)), url('../assets/img/forest.jpg');
+    }
+
+    &__list.third {
+        background: linear-gradient(rgba(255, 165, 0, 0.8), rgba(255, 165, 0, 0.1)), url('../assets/img/waterfall.jpg');
     }
 
     &__item {
